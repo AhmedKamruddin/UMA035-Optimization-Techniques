@@ -14,43 +14,6 @@ bv=size(A, 2)+1:size(mat, 2)-1;
 
 ZjCj=t(bv)*mat-t;
 
-%Apply simplex
-while true
-  ZC=ZjCj(1:end-1);
-  if ZC>=0
-    break
-  end
-
-
-  enteringVar=find(ZC==min(ZC));
-
-  ratio=[mat(:, end)./mat(:, enteringVar)];
-  ratio(find(ratio<0))=inf;
-  leavingVar=find(ratio==min(ratio));
-  if size(leavingVar, 1)>1
-    leavingVar=leavingVar(1:1);
-  end
-
-  bv(find(bv==bv(leavingVar)))=enteringVar;
-
-  k=mat(leavingVar, enteringVar);
-  mat(leavingVar, :)=mat(leavingVar, :)/k;
-  for i=1:size(mat, 1)
-    if i~=leavingVar
-      mat(i, :)=mat(i, :) - mat(i, enteringVar)*mat(leavingVar, :);
-    end
-  end
-  ZjCj=ZjCj-ZjCj(enteringVar)*mat(leavingVar, :);
-
-end
-
-%Check whether to apply dual simplex
-if mat(:, end)>=0
-  disp('Simplex over');
-else
-  disp('Applying dual simplex');
-end
-
 %Apply dual simplex
 while true
   if mat(:, end)>=0
