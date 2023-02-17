@@ -1,2 +1,2 @@
 # UMA035-Optimization-Techniques
-Codes for OT assignments
+ Optimization Techniques assignments 
